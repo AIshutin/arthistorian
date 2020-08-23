@@ -1,7 +1,6 @@
 from flask import jsonify
 from PIL import Image
 import os
-from model import predict_date
 os.system('mkdir tmp')
 
 def resize_img(img, size=224):
@@ -11,6 +10,9 @@ def resize_img(img, size=224):
     height_new = int(height / scale_f)
     img = img.resize((width_new, height_new))
     return img
+
+def predict_date(img):
+    requests.post("https://date-q2wlyryiha-uc.a.run.app", files={'image': })
 
 def do_something(img):
     return {

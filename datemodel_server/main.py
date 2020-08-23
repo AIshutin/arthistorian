@@ -2,7 +2,7 @@ from flask import jsonify
 from PIL import Image
 import os
 from model import predict_date
-os.system('mkdir tmp')
+
 
 def resize_img(img, size=224):
     width, height = img.size
@@ -21,6 +21,7 @@ def main(request):
             'error': 'no "image" in files'
         })
 
+    os.system('mkdir tmp')
     for key in request.files:
         file = request.files[key]
         key = os.path.basename(key)
@@ -30,6 +31,8 @@ def main(request):
         image = resize_img(image)
         os.system(f'rm {filepath}')
         break
+    print(os.listdir('.'))
+    print(os.listdir('tmp'))
 
     result = do_something(image)
     return jsonify(result)
@@ -46,4 +49,4 @@ if __name__ == "__main__":
     def process():
         return main(request)
 
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080)
