@@ -13,19 +13,7 @@ def resize_img(img, size=224):
     return img
 
 def do_something(img):
-    return {
-        'geo': 'France',
-        'date': predict_date(img),
-        'important': [
-            {'bbox': [0, 0, 24, 24], 'reason': 'obvious'},
-            {'bbox': [50, 50, 74, 74], 'reason': 'obvious'}
-        ],
-        'is_like': [
-            'Rafael',
-            'Michelangelo',
-            'Russo'
-        ]
-    }
+    return {'result': predict_date(img)}
 
 def main(request):
     if len(request.files) == 0:
@@ -46,14 +34,16 @@ def main(request):
     result = do_something(image)
     return jsonify(result)
 
-
 if __name__ == "__main__":
     import flask
     from flask import Flask, request
+    from flask_cors import CORS
     app = Flask(__name__)
+    CORS(app)
+
 
     @app.route('/', methods=["POST"])
     def process():
         return main(request)
 
-    app.run(port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)

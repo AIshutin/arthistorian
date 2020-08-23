@@ -1,4 +1,7 @@
 api_server/tmp/
+data/
+*.pt
+*.pkl
 *.zip
 
 # Byte-compiled / optimized / DLL files
