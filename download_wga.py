@@ -101,7 +101,10 @@ with open(args.csvfile, newline='') as csvfile:
         date = format_date(row[column2ind['date']])
         if date is None:
             continue
-        table.append((row[column2ind['url']], date))
+        table.append((row[column2ind['url']],
+                      date,
+                      row[column2ind['date']]
+                     ))
 
 print(f'Size: {len(table)}')
 print(table[:3])
@@ -141,7 +144,7 @@ with open(os.path.join(args.destination, 'prepared.csv'), 'w', newline='') as fi
         name = get_filename(url)
         date = row[1]
         urls_to_download.append((url, name))
-        spamwriter.writerow([name, date])
+        spamwriter.writerow([name, date, row[2]])
 
 
 '''async def download_file(url: str, name: str):
@@ -185,5 +188,5 @@ async def main():
     )'''
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+# loop.run_until_complete(main())
 loop.close()
