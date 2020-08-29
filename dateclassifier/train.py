@@ -7,7 +7,8 @@ from torch.utils.data import Dataset, DataLoader
 from ignite.metrics import RunningAverage
 from ignite.contrib.handlers.tqdm_logger import ProgressBar
 
-dataset = MiniDataset(TimeDataset(), 200000000000)
+torch.seed(0)
+dataset = TimeDataset()
 train_dataset, test_dataset = split_dataset(dataset, 0.3)
 batch_size = 32
 train_loader = DataLoader(train_dataset, batch_size, True)
@@ -18,7 +19,9 @@ print(device)
 model = create_model(dataset.classes, False).to(device)
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.8)
-criterion = torch.nn.CrossEntropyLoss()
+
+weights = torch.nn.Softmax()(torch.tensor([1/dataset.cnts[i] for i in range(dataset.classes)])).to(device)
+criterion = torch.nn.CrossEntropyLoss(weight=weights)
 
 trainer = create_supervised_trainer(model, optimizer, criterion, device=device)
 

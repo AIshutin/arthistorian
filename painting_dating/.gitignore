@@ -1,11 +1,3 @@
-api_server/tmp/
-data/
-*.pt
-*.pkl
-*.zip
-*.pth
-painting_dating/working_baseline/.idea
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -135,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+resized_images/
+*.csv
